@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      body{
+        margin: 0;
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: bisque;
+      }
+      #loginform{
+        width: 300px;
+        background-color: rgb(231, 231, 229);
+        padding: 20px; 
+        border-radius: 6px;
+        text-align: center;
+        box-shadow: 2px 2px 3px rgb(10, 10, 10);
+      }
+      input{
+        width: 80%;
+        padding: 8px;
+        border-radius: 5px;
+        margin: 10px 0;
+      }
+    </style>
+</head>
+<body>
+    <h1>LOGIN PAGE</h1>
+
+    <form id="loginform">
+        <input type="email" placeholder="email" id="loginemail" required>
+        <input type="password" placeholder="password" id="loginpassword" required>
+        <button type="submit">login</button>
+    </form>
+
+
+    <script>
+
+         let allusers = [];
+    try {
+      const stored = JSON.parse(localStorage.getItem("allusers"));
+      if (Array.isArray(stored)) {
+        allusers = stored;
+      } else {
+        // If stored data is corrupted or not an array, reset it
+        localStorage.setItem("allusers", JSON.stringify([]));
+        allusers = [];
+      }
+    } catch (error) {
+      // If JSON parse fails, reset
+      localStorage.setItem("allusers", JSON.stringify([]));
+      allusers = [];
+    }
+        let loginmail=document.getElementById("loginemail")
+        let loginpassword=document.getElementById("loginpassword")
+        let loginbtn=document.getElementById("loginform")
+
+        loginbtn.addEventListener("submit",(e)=>{
+            e.preventDefault()
+            let loginemailvalue=loginmail.value.trim()
+            let loginpasswordvalue=loginpassword.value.trim()
+
+            const allusers=JSON.parse(localStorage.getItem("allusers"))
+
+            console.log(allusers)
+
+            const userfound=allusers.find(x=>x.email === loginemailvalue && x.password === loginpasswordvalue);
+
+            if(userfound){
+                localStorage.setItem("allusers",JSON.stringify(userfound))
+                window.location.href="dash.html"
+            }else{
+                alert("ur cridential not exist!!")
+            }
+        })
+    </script>
+</body>
+</html>

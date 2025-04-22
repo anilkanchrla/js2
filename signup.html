@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SIGNUP PAGE</title>
+  <!-- Optional: Prevent favicon error -->
+  <link rel="icon" href="data:;base64,=">
+  <style>
+    body{
+      background-color: bisque;
+      margin: 0;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+    }
+   #container{
+    background-color: aqua;
+    padding: 10px;
+    box-shadow: 2px 2px 3px black;
+    border-radius: 6px;
+   }
+   #signup{
+    width: 300px;
+    text-align: center;
+   }
+   input{
+    margin: 15px 0;
+    width: 80%;
+    padding: 8px;
+    border-radius: 6px;
+   }
+  </style>
+</head>
+<body>
+  <h1>SIGNUP PAGE</h1>
+<div id="container">
+  <form id="signup" method="post">
+    <input type="text" placeholder="Name" id="name" required autocomplete="name" /><br>
+    <input type="email" placeholder="Email" id="email" required autocomplete="email" /><br>
+    <input type="password" placeholder="Password" id="password" required autocomplete="new-password" /><br>
+    <button type="submit">Signup</button>
+  </form>
+</div>
+
+  <script>
+    // Safely get or initialize users array
+    let allusers = [];
+    try {
+      const stored = JSON.parse(localStorage.getItem("allusers"));
+      if (stored) {
+        allusers = stored;
+      } else {
+        // If stored data is corrupted or not an array, reset it
+        localStorage.setItem("allusers", JSON.stringify([]));
+        allusers = [];
+      }
+    } catch (error) {
+      // If JSON parse fails, reset
+      localStorage.setItem("allusers", JSON.stringify([]));
+      allusers = [];
+    }
+
+    const signname = document.getElementById("name");
+    const signemail = document.getElementById("email");
+    const signpassword = document.getElementById("password");
+    const signbtn = document.getElementById("signup");
+
+    signbtn.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const signNameValue = signname.value.trim();
+      const signEmailValue = signemail.value.trim();
+      const signPasswordValue = signpassword.value.trim();
+
+      const newUserDetails = {
+        name: signNameValue,
+        email: signEmailValue,
+        password: signPasswordValue
+      };
+
+
+      const exist=allusers.find(x=>x.email===signEmailValue)
+      if(exist){
+        return alert("this one all ready exist try another one")
+      }
+      allusers.push(newUserDetails);
+      localStorage.setItem("allusers", JSON.stringify(allusers));
+
+      alert("Signup done going to login page");
+      window.location.href = "login.html"; 
+    });
+  </script>
+</body>
+</html>
